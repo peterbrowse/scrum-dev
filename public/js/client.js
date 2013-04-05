@@ -1,4 +1,5 @@
-var socket = io.connect('http://localhost:8080');
+//var socket = io.connect('http://localhost:8080');
+var socket = io.connect();
 
 var totalNumber = 0,
 	totalMUFC 	= 0,

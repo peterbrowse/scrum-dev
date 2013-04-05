@@ -11,7 +11,7 @@
 	overflow: hidden;
 }
 	.side {
-		height: 20px;
+		height: 100%;
 	}
 
 	.left {
@@ -19,6 +19,7 @@
 		float: left;
 		background-color: #c20000;
 		width: 50%;
+		
 	}
 	
 	.right {

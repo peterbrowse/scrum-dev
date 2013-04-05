@@ -2,7 +2,7 @@
 	"author": "Peter Browse <peterbrowse@gmail.com>",
 	"name": "tweetscrum",
 	"description": "Dev project using the scrum.",
-	"version": "0.0.1",
+	"version": "0.0.1-2",
 	"config": {
 		"port": "8080"
 	},
