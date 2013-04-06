@@ -1,5 +1,9 @@
 @import url(http://fonts.googleapis.com/css?family=Ubuntu:300,400,700);
 
+body {
+	font-size: 50px;
+}
+
 .container {
 	position: absolute;
 	top: 0;
@@ -12,25 +16,30 @@
 }
 	.side {
 		height: 100%;
+		text-align: center;
+		display: table;
 	}
 
 	.left {
 		position: relative;
 		float: left;
-		background-color: #c20000;
+		background-color: #002366;
 		width: 50%;
+		color: #FFF;
 		
 	}
 	
 	.right {
 		position: relative;
 		float: right;
-		background-color: #ffcc00;
+		background-color: #c20000;
 		width: 50%;
+		color: #DA9100;
 	}
 	
 		.content {
-			display: table;
+			display: table-cell;
 			margin: auto;
 			vertical-align: middle;
+			font-size: 30px;
 		}

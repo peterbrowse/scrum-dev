@@ -1,56 +1,56 @@
-//var socket = io.connect('http://localhost:8080');
-var socket = io.connect();
-
 var totalNumber = 0,
 	totalMUFC 	= 0,
 	totalCFC 	= 0,
-	$percentageOfCFC,
-	$percentageOfMUFC;
+	CFpercentage,
+	CFpercentage,
+	processMode;
+
+//var socket = io.connect('http://localhost:8080');
+var socket = io.connect();
+
+socket.on('processMode', function(mode) {
+	processMode = mode;
+});
+
+socket.on('tweetNumbers', function(tweetNumbers) {
+	if(processMode == 'development') {
+		console.log(tweetNumbers);
+	}
+	totalNumber 	= tweetNumbers.totalNumber,
+	totalMUFC 		= tweetNumbers.totalMUFC,
+	totalCFC 		= tweetNumbers.totalCFC,
+	CFpercentage 	= Math.round(((totalCFC/totalNumber)*100)),
+	MUpercentage 	= Math.round(((totalMUFC/totalNumber)*100)),
+	$right 			= $('.right'),
+	$left 			= $('.left');
+	
+	$('.left').css('width',CFpercentage + '%');
+	$('.right').css('width',MUpercentage + '%');
+	$('.left p').css('font-size',CFpercentage + 'px');
+	$('.right p').css('font-size',MUpercentage + 'px');
+	$('.left p.amount').text(totalCFC);
+	$('.right p.amount').text(totalMUFC);
+});
 
 $(document).ready(function() {
 	$right = $('.right');
 	$left = $('.left');
-
-	socket.on('tweet', function(tweet){
-		//console.log(tweet.entities.hashtags[0].text);
-		for (var i=0;i<tweet.entities.hashtags.length;i++) {
-			if(tweet.entities.hashtags[i].text.toLowerCase() == 'cfc') {
-				totalNumber ++;
-				totalCFC ++;
-				//console.log('cfc');
-				CFpercentage = ((totalCFC/totalNumber)*100);
-				MUpercentage = ((totalMUFC/totalNumber)*100);
-				
-				console.log('CFC Tweet: MU ' + MUpercentage + '% CF ' + CFpercentage + '%');
-				$('.left').css('width',CFpercentage + '%');
-				$('.right').css('width',MUpercentage + '%');
-			}
 	
-			if(tweet.entities.hashtags[i].text.toLowerCase() == 'mufc') {
-				totalNumber ++;
-				totalMUFC ++;
-				//console.log('mufc');
+	socket.on('tweet', function(totalCFC, totalMUFC, totalNumber){
+		totalNumber = totalNumber,
+		totalCFC = totalCFC,
+		totalMUFC = totalMUFC,
+		CFpercentage = Math.round(((totalCFC/totalNumber)*100)),
+		MUpercentage = Math.round(((totalMUFC/totalNumber)*100));
 				
-				CFpercentage = ((totalCFC/totalNumber)*100);
-				MUpercentage = ((totalMUFC/totalNumber)*100);
-				
-				console.log('MUFC Tweet: MU ' + MUpercentage + '% CF ' + CFpercentage + '%');
-				$('.left').css('width',CFpercentage + '%');
-				$('.right').css('width',MUpercentage + '%');
-			}
-		}
+		$('.left').animate({width: CFpercentage + '%'}, 1000, 'easeOutBounce');
+		$('.right').animate({width: MUpercentage + '%'}, 1000, 'easeOutBounce');
+		$('.left p').css('font-size',CFpercentage + 'px');
+		$('.right p').css('font-size',MUpercentage + 'px');
+		$('.left p.amount').text(totalCFC);
+		$('.right p.amount').text(totalMUFC);
 	});
 });
-
-Array.prototype.contains = function(obj) {
-    var i = this.length;
-    while (i--) {
-        if (this[i].toLowerCase() === obj) {
-            return true;
-        }
-    }
-    return false;
-}
 
 var red = '#c20000'; //white text
 var yellow = '#ffcc00'; //green text #006e00;

@@ -4,6 +4,12 @@ var	blue  	= '\033[34m',
 	red   	= '\033[31m',
 	yellow 	= '\033[33m',
 	reset 	= '\033[0m';
+	
+//console variables
+var totalNumber = 0,
+	totalMUFC 	= 0,
+	totalCFC 	= 0;
+
 
 console.log(blue+'Twitter Scrum App Starting');
 
@@ -32,6 +38,8 @@ server.listen(process.env.PORT || 8080, function (err) {
 
   console.log(green+'info: '+reset+'Express server started on '+yellow+'%s:'+yellow+'%s'+reset+'.', server.address().address, server.address().port);
   console.log(green+'info: '+reset+'App running in '+yellow+process.env.NODE_ENV+reset+' mode.');
+  
+  processMode = process.env.NODE_ENV;
 });
 
 var T = new Twit({
@@ -51,7 +59,40 @@ io.configure(function(){
 });
 
 io.on('connection', function(socket){
+	socket.emit('processMode', process.env.NODE_ENV);
+	
+	var tweetNumbersObject = new tweetNumbers(totalNumber,totalMUFC,totalCFC);
+	socket.emit('tweetNumbers', tweetNumbersObject);
+
 	stream.on('tweet', function (tweet) {
-		socket.emit('tweet', tweet);
+		if(tweet.entities.hashtags.contains('cfc')) {
+			totalNumber ++;
+			totalCFC ++;
+			socket.emit('tweet', totalCFC, totalMUFC, totalNumber);
+		}
+	
+		if(tweet.entities.hashtags.contains('mufc')) {
+			totalNumber ++;
+			totalMUFC ++;
+			socket.emit('tweet', totalCFC, totalMUFC, totalNumber);
+		}
 	});
 });
+
+function tweetNumbers(totalNumber,totalMUFC, totalCFC){
+	this.totalNumber=totalNumber;
+	this.totalMUFC=totalMUFC;
+	this.totalCFC=totalCFC;
+}
+
+
+
+Array.prototype.contains = function(obj) {
+    var i = this.length;
+    while (i--) {
+        if (this[i].text.toLowerCase() === obj) {
+            return true;
+        }
+    }
+    return false;
+}
