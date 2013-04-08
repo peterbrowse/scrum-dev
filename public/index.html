@@ -7,8 +7,11 @@
 		
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
-		<!--<script type="text/javascript" src="http://localhost:8080/socket.io/socket.io.js"></script>-->
+		<!--<script type="text/javascript" src="http://10.1.1.91:8080/socket.io/socket.io.js"></script>-->
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="js/jquery.transit.min.js"></script>
+		<script type="text/javascript" src="js/jquery.hammer.js"></script>
+		<script type="text/javascript" src="js/raphael-min.js"></script>
 		<script type="text/javascript" src="js/client.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 		
@@ -17,19 +20,16 @@
 		<title>Twitter Scrum</title>
 	</head>
 	<body>
-		<div class="container">
-			<div class="left side">
-				<div class="content">
-					<p>#CFC</p>
-					<p class="amount"></p>
-				</div>
-			</div>
-			<div class="right side">
-				<div class="content">
-					<p>#MUFC</p>
-					<p class="amount"></p>
-				</div>
-			</div>
+		<div class="outter">
+  			<div id="container">
+  				
+  			</div>
+  			<div id="posts-container">
+  				<div id="post-container-inner">
+  					<div class="post post-left"><img src="/images/RugbyPostLeft.png" /></div>
+  					<div class="post post-right"><img src="/images/RugbyPostLeft.png" /></div>
+  				</div>
+  			</div>
   		</div>
 	</body>
 </html>

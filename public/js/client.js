@@ -4,8 +4,10 @@ var totalNumber = 0,
 	CFpercentage,
 	CFpercentage,
 	processMode;
+	
+console.log(dateString);
 
-//var socket = io.connect('http://localhost:8080');
+//var socket = io.connect('http://10.1.1.91:8080');
 var socket = io.connect();
 
 socket.on('processMode', function(mode) {
@@ -20,21 +22,28 @@ socket.on('tweetNumbers', function(tweetNumbers) {
 	totalMUFC 		= tweetNumbers.totalMUFC,
 	totalCFC 		= tweetNumbers.totalCFC,
 	CFpercentage 	= Math.round(((totalCFC/totalNumber)*100)),
-	MUpercentage 	= Math.round(((totalMUFC/totalNumber)*100)),
-	$right 			= $('.right'),
-	$left 			= $('.left');
+	MUpercentage 	= Math.round(((totalMUFC/totalNumber)*100));
 	
-	$('.left').css('width',CFpercentage + '%');
-	$('.right').css('width',MUpercentage + '%');
-	$('.left p').css('font-size',CFpercentage + 'px');
-	$('.right p').css('font-size',MUpercentage + 'px');
-	$('.left p.amount').text(totalCFC);
-	$('.right p.amount').text(totalMUFC);
+	leftText.attr({text: "#CFC\n" + totalCFC, "font-size": CFpercentage + 'px'});
+   	rightText.attr({width: MUpercentage + '%', x: (CFpercentage + (MUpercentage/2)) + '%'});
 });
 
 $(document).ready(function() {
-	$right = $('.right');
-	$left = $('.left');
+	var paper = Raphael($("#container").get(0), "100%","100%");
+
+	var left = paper.rect(0, 0, "50%", "100%");
+	var right = paper.rect("50%", 0, "50%", "100%");
+	left.attr("fill", "#007FFF");
+	right.attr("fill", "#c20000");
+	left.attr("stroke", "#FFF");
+	left.attr("stroke-width", "2px");
+	right.attr("stroke", "#FFF");
+	right.attr("stroke-width", "2px");
+
+	leftText = paper.text("25%", "50%", "#MCFC\n" + totalCFC).attr({fill: '#FFF'});
+	rightText = paper.text("75%", "50%", "#MUFC\n" + totalMUFC).attr({fill: '#DA9100'});
+	left.attr({width: CFpercentage + '%'});
+   	leftText.attr({x: CFpercentage/2 + '%'});
 	
 	socket.on('tweet', function(totalCFC, totalMUFC, totalNumber){
 		totalNumber = totalNumber,
@@ -42,13 +51,14 @@ $(document).ready(function() {
 		totalMUFC = totalMUFC,
 		CFpercentage = Math.round(((totalCFC/totalNumber)*100)),
 		MUpercentage = Math.round(((totalMUFC/totalNumber)*100));
-				
-		$('.left').animate({width: CFpercentage + '%'}, 1000, 'easeOutBounce');
-		$('.right').animate({width: MUpercentage + '%'}, 1000, 'easeOutBounce');
-		$('.left p').css('font-size',CFpercentage + 'px');
-		$('.right p').css('font-size',MUpercentage + 'px');
-		$('.left p.amount').text(totalCFC);
-		$('.right p.amount').text(totalMUFC);
+		
+		leftText.attr({text: "#MCFC\n" + totalCFC, "font-size": CFpercentage + 'px'});
+		rightText.attr({text: "#MUFC\n" + totalMUFC, "font-size": MUpercentage + 'px'});
+		left.attr({width: CFpercentage + '%'});
+   		leftText.attr({x: CFpercentage/2 + '%'});
+   		
+   		right.attr({width: MUpercentage + '%', x: CFpercentage + '%'});
+   		rightText.attr({width: MUpercentage + '%', x: (CFpercentage + (MUpercentage/2)) + '%'});
 	});
 });
 

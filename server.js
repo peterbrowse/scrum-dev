@@ -49,7 +49,7 @@ var T = new Twit({
   , access_token_secret:  'bI58z5h3Kaf4P4DqbWqxpZo38zgcsRkchjr5pHlw10'
 });
 
-var stream = T.stream('statuses/filter', {track: ['#cfc','#mufc']});
+var stream = T.stream('statuses/filter', {track: ['#mcfc','#mufc']});
 
 io.configure(function(){
         io.enable('browser client minification');  // send minified client
@@ -65,15 +65,15 @@ io.on('connection', function(socket){
 	socket.emit('tweetNumbers', tweetNumbersObject);
 
 	stream.on('tweet', function (tweet) {
-		if(tweet.entities.hashtags.contains('cfc')) {
-			totalNumber ++;
-			totalCFC ++;
+		if(tweet.entities.hashtags.contains('mcfc')) {
+			totalNumber = totalNumber + 1;
+			totalCFC = totalCFC + 1;
 			socket.emit('tweet', totalCFC, totalMUFC, totalNumber);
 		}
 	
 		if(tweet.entities.hashtags.contains('mufc')) {
-			totalNumber ++;
-			totalMUFC ++;
+			totalNumber = totalNumber + 1;
+			totalMUFC = totalMUFC + 1;
 			socket.emit('tweet', totalCFC, totalMUFC, totalNumber);
 		}
 	});
