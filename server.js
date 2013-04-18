@@ -52,10 +52,14 @@ var T = new Twit({
 var stream = T.stream('statuses/filter', {track: ['#mcfc','#mufc']});
 
 io.configure(function(){
-        io.enable('browser client minification');  // send minified client
+       	io.enable('browser client minification');  // send minified client
         io.enable('browser client etag');          // apply etag caching logic based on version number
         io.enable('browser client gzip');          // gzip the file
         io.set('log level', 1);                    // reduce logging
+        io.set('transports', [
+  			, 'xhr-polling'
+  			, 'jsonp-polling'
+  		]);
 });
 
 io.on('connection', function(socket){
